@@ -1,0 +1,41 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  authorizationService:
+    image: tomcat  
+    volumes:
+        - E:\Authorization_service_prjct\war_arсhive:/usr/local/tomcat/webapps
+    environment:
+        - SPRING_PROFILES_ACTIVE="server"
+        - SPRING_DATASOURCE_URL="jdbc:mysql://database:3306/db_users?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
+        - DB_USER="root"
+        - DB_PASSWORD="root"
+    ports:
+        - "8888:8080"
+    links:
+        - "database:db_users"
+  
+  database:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+        - MYSQL_ROOT_USER=root
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=db_users
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3316:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+
+  PhpMyAdmin:
+    image: adminer
+    restart: always
+    ports:
+        - "8181:8080"
+    links:
+        - "database:mysql"

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="1.0.0" author="vs">
+        <createTable tableName="Users">
+            <column name="Id_user" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="User_name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="Password" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Word_coder" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Status" type="VARCHAR(25)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Email" type="VARCHAR(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="First_name" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Last_name" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Created_date" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Updated_date" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="true" unique="true"/>
+            </column>
+            <column name="Data_user_id" type="BIGINT">
+                <constraints nullable="true" unique="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="vs">
+        <createTable tableName="Roles">
+            <column name="Id_role" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.2" author="vs">
+        <createTable tableName="User_roles">
+            <column name="Id_user_role" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="User_id" type="BIGINT">
+            </column>
+            <column name="Role_id" type="INT">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="vs">
+        <createTable tableName="Type_subject">
+            <column name="Id_type_subject" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="true"/>
+            </column>
+            <column name="Name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="vs">
+        <createTable tableName="Organizational_form">
+            <column name="Id_organizational_form" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Name" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1.0.5" author="vs">
+        <createTable tableName="Data_user">
+            <column name="Id_data_user" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="INN" type="VARCHAR(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Type_subject_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Organizational_form_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Full_name_company" type="VARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Short_name_company" type="VARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Name_director" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Patronymic_director" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Family_name_director" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="FIO_responsiblePerson" type="VARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Telefone" type="VARCHAR(12)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.6" author="vs">
+        <createTable tableName="Requests">
+            <column name="Id_request" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="User_id_request" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Request_text" type="VARCHAR(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Created_date_request" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.7" author="vs">
+        <createTable tableName="Messages">
+            <column name="Id_message" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Id_request" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="User_id_response" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Response_text" type="VARCHAR(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Created_date_response" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Updated_date_response" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1.0.8" author="vs">
+        <addForeignKeyConstraint baseColumnNames="User_id"
+                                 baseTableName="User_roles"
+                                 constraintName="FK_User_roles_Users"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_user"
+                                 referencedTableName="Users"/>
+    </changeSet>
+
+    <changeSet id="1.0.9" author="vs">
+        <addForeignKeyConstraint baseColumnNames="Role_id"
+                                 baseTableName="User_roles"
+                                 constraintName="FK_User_roles_Roles"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_role"
+                                 referencedTableName="Roles"/>
+
+    </changeSet>
+
+    <changeSet id="1.0.10" author="vs">
+        <addForeignKeyConstraint baseColumnNames="Data_user_id"
+                                 baseTableName="Users"
+                                 constraintName="FK_Users_Data_user"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_data_user"
+                                 referencedTableName="Data_user"/>
+    </changeSet>
+
+<!--    <changeSet id="1.0.11" author="vs">-->
+<!--        <addForeignKeyConstraint baseColumnNames="Data_user_id"-->
+<!--                                 baseTableName="Users"-->
+<!--                                 constraintName="FK_Users_Data_user"-->
+<!--                                 onDelete="SET NULL"-->
+<!--                                 onUpdate="RESTRICT"-->
+<!--                                 referencedColumnNames="Id_data_user"-->
+<!--                                 referencedTableName="Data_user"/>-->
+<!--    </changeSet>-->
+
+    <changeSet id="1.0.11" author="vs">
+        <addForeignKeyConstraint baseColumnNames="Type_subject_id"
+                                 baseTableName="Data_user"
+                                 constraintName="FK_Data_user_Type_subject"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_type_subject"
+                                 referencedTableName="Type_subject"/>
+    </changeSet>
+
+    <changeSet id="1.0.12" author="vs">
+        <addForeignKeyConstraint baseColumnNames="Organizational_form_id"
+                                 baseTableName="Data_user"
+                                 constraintName="FK_Data_user_Organizational_form"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_organizational_form"
+                                 referencedTableName="Organizational_form"/>
+    </changeSet>
+
+    <changeSet id="1.0.13" author="vs">
+    <addForeignKeyConstraint baseColumnNames="User_id_request"
+                             baseTableName="Requests"
+                             constraintName="FK_Requests_Users"
+                             onDelete="SET NULL"
+                             onUpdate="RESTRICT"
+                             referencedColumnNames="Id_user"
+                             referencedTableName="Users"/>
+    </changeSet>
+
+    <changeSet id="1.0.14" author="vs">
+        <addForeignKeyConstraint baseColumnNames="User_id_response"
+                                 baseTableName="Messages"
+                                 constraintName="FK_Messages_Users"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_user"
+                                 referencedTableName="Users"/>
+
+        <addForeignKeyConstraint baseColumnNames="Id_request"
+                                 baseTableName="Messages"
+                                 constraintName="FK_Messages_Requests"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="Id_request"
+                                 referencedTableName="Requests"/>
+    </changeSet>
+
+    <changeSet id="1.0.15" author="vs">
+        <insert tableName="Roles">
+            <column name="Name" value="ADMIN"/>
+        </insert>
+        <insert tableName="Roles">
+            <column name="Name" value="USER"/>
+        </insert>
+        <insert tableName="Roles">
+            <column name="Name" value="ANONYMOUS"/>
+        </insert>
+
+        <insert tableName="Type_subject">
+            <column name="Name" value="IP"/>
+        </insert>
+        <insert tableName="Type_subject">
+            <column name="Name" value="Juridical person"/>
+        </insert>
+        <insert tableName="Type_subject">
+            <column name="Name" value="Self-employed person"/>
+        </insert>
+        <insert tableName="Type_subject">
+            <column name="Name" value=""/>
+        </insert>
+
+        <insert tableName="Organizational_form">
+            <column name="Name" value="ОАО"/>
+        </insert>
+        <insert tableName="Organizational_form">
+            <column name="Name" value="ООО"/>
+        </insert>
+        <insert tableName="Organizational_form">
+            <column name="Name" value="ПАО"/>
+        </insert>
+        <insert tableName="Organizational_form">
+            <column name="Name" value="ЗАО"/>
+        </insert>
+        <insert tableName="Organizational_form">
+            <column name="Name" value="ГКУ"/>
+        </insert>
+        <insert tableName="Organizational_form">
+            <column name="Name" value=""/>
+        </insert>
+    </changeSet>
+
+
+    <changeSet id="1.0.16" author="vs">
+        <insert tableName="Data_user">
+            <column name="INN" value="777777777777"/>
+            <column name="Type_subject_id" value="1"/>
+            <column name="Organizational_form_id" value="1"/>
+        </insert>
+
+        <insert tableName="Users">
+            <column name="User_name" value="vldmr"/>
+            <column name="Password" value="42f846961c6718e804bcdd0f04d32a9d44fa3a4a51d4983026bd8b31525af5b5"/>
+            <column name="Word_coder" value="vldmr"/>
+            <column name="Status" value="ACTIVE"/>
+            <column name="Email" value="vldmr@gmail.com"/>
+            <column name="First_name" value="Vladimir"/>
+            <column name="Last_name" value="S"/>
+            <column name="Data_user_id" value="1"/>
+            <column name="Created_date" value="2020.10.30"/>
+            <column name="Updated_date" value="2020.10.30"/>
+        </insert>
+        <insert tableName="User_roles">
+            <column name="User_id" value="1"/>
+            <column name="Role_id" value="1"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="1.0.17" author="vs">
+        <insert tableName="Data_user">
+            <column name="INN" value="123456789012"/>
+            <column name="Type_subject_id" value="2"/>
+            <column name="Organizational_form_id" value="2"/>
+        </insert>
+        <insert tableName="Users">
+            <column name="User_name" value="User2"/>
+            <column name="Password" value="42f846961c6718e804bcdd0f04d32a9d44fa3a4a51d4983026bd8b31525af5b5"/>
+            <column name="Word_coder" value="User2"/>
+            <column name="Status" value="ACTIVE"/>
+            <column name="Email" value="User2@gmail.com"/>
+            <column name="First_name" value="User2"/>
+            <column name="Last_name" value="S"/>
+            <column name="Data_user_id" value="2"/>
+            <column name="Created_date" value="2021.01.16"/>
+            <column name="Updated_date" value="2021.01.16"/>
+        </insert>
+        <insert tableName="User_roles">
+            <column name="User_id" value="2"/>
+            <column name="Role_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.18" author="vs">
+        <insert tableName="Data_user">
+            <column name="INN" value="210987654321"/>
+            <column name="Type_subject_id" value="3"/>
+            <column name="Organizational_form_id" value="3"/>
+        </insert>
+        <insert tableName="Users">
+            <column name="User_name" value="User3"/>
+            <column name="Password" value="42f846961c6718e804bcdd0f04d32a9d44fa3a4a51d4983026bd8b31525af5b5"/>
+            <column name="Word_coder" value="User3"/>
+            <column name="Status" value="ACTIVE"/>
+            <column name="Email" value="User3@gmail.com"/>
+            <column name="First_name" value="User3"/>
+            <column name="Last_name" value="S"/>
+            <column name="Data_user_id" value="3"/>
+            <column name="Created_date" value="2021.01.16"/>
+            <column name="Updated_date" value="2021.01.17"/>
+        </insert>
+        <insert tableName="User_roles">
+            <column name="User_id" value="3"/>
+            <column name="Role_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.19" author="vs">
+        <insert tableName="Data_user">
+            <column name="INN" value="210987654300"/>
+            <column name="Type_subject_id" value="4"/>
+            <column name="Organizational_form_id" value="5"/>
+        </insert>
+        <insert tableName="Users">
+            <column name="User_name" value="УИС_56"/>
+            <column name="Password" value="42f846961c6718e804bcdd0f04d32a9d44fa3a4a51d4983026bd8b31525af5b5"/>
+            <column name="Word_coder" value="УИС56"/>
+            <column name="Status" value="ACTIVE"/>
+            <column name="Email" value="UIS563@gmail.com"/>
+            <column name="First_name" value="УИС_56"/>
+            <column name="Last_name" value=""/>
+            <column name="Data_user_id" value="4"/>
+            <column name="Created_date" value="2021.01.24"/>
+            <column name="Updated_date" value="2021.01.24"/>
+        </insert>
+        <insert tableName="User_roles">
+            <column name="User_id" value="4"/>
+            <column name="Role_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.20" author="vs">
+        <insert tableName="Requests">
+            <column name="User_id_request" value="1"/>
+            <column name="Request_text" value="Здравствуйте товарищи"/>
+            <column name="Created_date_request" value="2021.01.25"/>
+        </insert>
+
+        <insert tableName="Messages">
+            <column name="Id_request" value="1"/>
+            <column name="User_id_response" value="2"/>
+        </insert>
+        <insert tableName="Messages">
+            <column name="Id_request" value="1"/>
+            <column name="User_id_response" value="3"/>
+        </insert>
+        <insert tableName="Requests">
+            <column name="User_id_request" value="4"/>
+            <column name="Request_text" value="Добро пожаловать!"/>
+            <column name="Created_date_request" value="2021.01.25"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
